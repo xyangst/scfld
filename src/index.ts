@@ -6,6 +6,10 @@ function clone(user: string, repo: string, folder: string) {
     const command = `git clone ${link}.git ${folder} --depth 1`;
     execSync(command);
     fs.rmdirSync(`${folder}/.git`, { recursive: true });
+    execSync(`git init ${folder}`);
+    //stage all
+    execSync(`git -C ${folder} add .`);
+    console.log('done');
 }
 function main(argv: string[]) {
     const input = argv[0];
