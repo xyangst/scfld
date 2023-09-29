@@ -1,7 +1,7 @@
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
 import { parseArgs } from '~/cli/parseArgs';
-import { getHelpMessage } from '~/help/help';
+import { getHelpMessage } from '~/help/help' assert { type: 'macro' };
 import { parseCustomInput, parseGitHubLink } from '~/stringParsing';
 
 function clone(user: string, repo: string, folder: string) {
