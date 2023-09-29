@@ -1,7 +1,6 @@
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
-import { parseCustomStrings, parseGitHubLink } from '~/stringParsing';
-import usage from '../usage';
+import { parseCustomInput, parseGitHubLink } from '~/stringParsing';
 import { parseArgs } from './parseArgs';
 
 function clone(user: string, repo: string, folder: string) {
@@ -15,16 +14,16 @@ function clone(user: string, repo: string, folder: string) {
     execSync(`git -C ${folder} add .`);
     console.log('done');
 }
-
 export function scfld() {
     const { _: args, flags } = parseArgs(process.argv.slice(2));
     let res;
     try {
         res = parseGitHubLink(args[0]);
     } catch (error) {
-        res = parseCustomStrings(args[0]);
+        res = parseCustomInput(args[0]);
     }
-    if (!res) throw new Error(usage);
+    if (!res) throw new Error('invalid syntax');
+    console.clear();
     let folder = res.repo;
     if (!res.branch) {
         folder = res.repo;

@@ -1,5 +1,4 @@
 import minimist from 'minimist';
-import usage from '~/usage';
 type flags = 'url';
 export function parseArgs(argv: string[]) {
     const args = minimist(argv);
@@ -8,6 +7,6 @@ export function parseArgs(argv: string[]) {
         url: args['--']?.includes('url') ?? false,
     };
     if (args._.length === 0)
-        throw new Error('need to provide atleast one argument' + usage);
+        throw new Error('need to provide atleast one argument');
     return { flags, _: args._ };
 }

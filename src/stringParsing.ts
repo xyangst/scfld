@@ -17,7 +17,7 @@ type parseRes =
     | { user: string; repo: string; branch?: string; sub?: string }
     | false;
 
-export function parseCustomStrings(arg: string): parseRes {
+export function parseCustomInput(arg: string): parseRes {
     const regex = /^(\w+)\/(\w+)(?:#(\w+))?(?:\/(\w+))?$/;
     const match = arg.match(regex);
     if (match) {
