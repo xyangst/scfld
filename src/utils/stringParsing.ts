@@ -1,5 +1,5 @@
 export function parseGitHubLink(link: string): parseRes {
-    const cleanLink = link.replace(/^https?:\/\/(?:www\.)?github\.com\//, ''); // Remove protocol and domain
+    const cleanLink = link.replace(/^(https?:\/\/)?(www\.)?github\.com\//, '');
     const match = cleanLink.split('/').filter(Boolean);
 
     if (match.length >= 2) {
