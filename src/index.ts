@@ -1,5 +1,5 @@
 import { scfld } from './cli/run';
-import usage from './usage';
+import { getHelpMessage } from './help/help' assert { type: 'macro' };
 const config = {
     trace: false,
 };
@@ -7,9 +7,9 @@ try {
     scfld();
 } catch (error) {
     if (error instanceof Error)
-        if (config.trace) {
+        if (!config.trace) {
+            console.log(getHelpMessage(false));
             console.error(error.message);
-            console.log(usage);
             process.exit(1);
         }
     throw error;

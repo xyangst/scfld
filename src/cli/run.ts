@@ -1,7 +1,8 @@
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
+import { parseArgs } from '~/cli/parseArgs';
+import { getHelpMessage } from '~/help/help';
 import { parseCustomInput, parseGitHubLink } from '~/stringParsing';
-import { parseArgs } from './parseArgs';
 
 function clone(user: string, repo: string, folder: string) {
     const link = `https://github.com/${user}/${repo}`;
@@ -15,7 +16,13 @@ function clone(user: string, repo: string, folder: string) {
     console.log('done');
 }
 export function scfld() {
-    const { _: args, flags } = parseArgs(process.argv.slice(2));
+    const { args, flags } = parseArgs(process.argv.slice(2));
+    if (flags.help) {
+        console.log(getHelpMessage(true));
+        return;
+    }
+    if (args.length === 0)
+        throw new Error('need to provide atleast one argument');
     let res;
     try {
         res = parseGitHubLink(args[0]);
