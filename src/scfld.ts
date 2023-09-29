@@ -1,8 +1,8 @@
 import { execSync } from 'node:child_process';
 import fs from 'node:fs';
-import { parseArgs } from '~/cli/parseArgs';
 import { getHelpMessage } from '~/help/help' assert { type: 'macro' };
-import { parseCustomInput, parseGitHubLink } from '~/stringParsing';
+import { parseCustomInput, parseGitHubLink } from '~/utils/stringParsing';
+import { flags } from './cli/cli';
 
 function clone(user: string, repo: string, folder: string) {
     const link = `https://github.com/${user}/${repo}`;
@@ -15,8 +15,7 @@ function clone(user: string, repo: string, folder: string) {
     execSync(`git -C ${folder} add .`);
     console.log('done');
 }
-export function scfld() {
-    const { args, flags } = parseArgs(process.argv.slice(2));
+export function scfld(args: string[], flags: flags) {
     if (flags.help) {
         console.log(getHelpMessage(true));
         return;
@@ -39,9 +38,15 @@ export function scfld() {
         const temp = `/tmp/${crypto.randomUUID()}`;
         clone(res.user, res.repo, temp);
         const tempFolder = `${temp}/${folder}`;
-        if (!fs.existsSync(tempFolder))
+        if (fs.existsSync(tempFolder))
             throw new Error('sub folder doesnt exist');
-        fs.mkdirSync(res.repo);
+        if (fs.existsSync(folder)) {
+            if (!flags.force)
+                throw new Error(
+                    `folder ${folder} already exists. use the --force flag if intended.`,
+                );
+            else fs.rmdirSync(folder, { recursive: true });
+        }
         fs.renameSync(tempFolder, folder);
         fs.rmdirSync(temp, { recursive: true });
     }

@@ -5,9 +5,8 @@ The `src` argument can be any of the following:
 Options:
 
   `--help`,    `-h`  Show this message
-  `--cache`,   `-c`  Only use local cache
   `--force`,   `-f`  Allow non-empty destination directory
-  `--verbose`, `-v`  Extra logging
+  `--verbose`, `-v`  Extra logging (currently none)
 
 ## GitHub repos
 
