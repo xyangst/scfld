@@ -1,9 +1,8 @@
 import chalk from 'chalk';
-import { readFileSync } from 'fs';
 import path from 'node:path';
-export function getHelpMessage(long: boolean) {
-    const shortHelp = parseMd(path.join(import.meta.dir, 'HELPSHORT.md'));
-    const longHelp = parseMd(path.join(import.meta.dir, 'HELP.md'));
+export async function getHelpMessage(long: boolean) {
+    const shortHelp = await parseMd(path.join(import.meta.dir, 'HELPSHORT.md'));
+    const longHelp = await parseMd(path.join(import.meta.dir, 'HELP.md'));
     if (long) {
         return [shortHelp, longHelp].join('\n');
     } else {
@@ -11,8 +10,8 @@ export function getHelpMessage(long: boolean) {
     }
 }
 
-function parseMd(path: string): string {
-    return readFileSync(path, 'utf-8')
+async function parseMd(path: string): Promise<string> {
+    return (await Bun.file(path).text())
         .replace(/^(\s*)#+ (.+)/gm, (m, s, _) => s + chalk.bold(_))
         .replace(/`([^`]+)`/g, (m, _) => chalk.cyan(_));
 }

@@ -15,9 +15,9 @@ function clone(user: string, repo: string, folder: string) {
     execSync(`git -C ${folder} add .`);
     console.log('done');
 }
-export function scfld(args: string[], flags: flags) {
+export async function scfld(args: string[], flags: flags) {
     if (flags.help) {
-        console.log(getHelpMessage(true));
+        console.log(await getHelpMessage(true));
         return;
     }
     if (args.length === 0)

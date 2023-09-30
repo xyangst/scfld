@@ -10,7 +10,7 @@ try {
 } catch (error) {
     if (error instanceof Error)
         if (!config.trace) {
-            console.log(getHelpMessage(false));
+            console.log(await getHelpMessage(false));
             console.error(error.message);
             process.exit(1);
         }
